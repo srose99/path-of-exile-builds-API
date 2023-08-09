@@ -2,5 +2,5 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
-response = requests.get(BASE + "buildtypes/League-Starter")
+response = requests.put(BASE + "builds/1", {"Name": "SST Champion", "Budget": "HighEnd", "Pastebin": "pastebin.URL", "Description": "Fast and tanky"})
 print(response.json())
