@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,13 +13,29 @@ build_put_args.add_argument("Description", type=str, help="Short description of 
 #Builds need a: Name, Budget, Pastebin, Description
 builds = {}
 
+def abort_if_invalid(build):
+    if build not in builds:
+        abort(404, message="Couldnt find build")
+
+def abort_if_already_exists(build):
+    if build in builds:
+        abort(409, message="Build already exists")
+
 class Builds(Resource):
     def get(self, build):
+        abort_if_invalid(build)
         return builds[build]
+    
     def put(self, build):
+        abort_if_already_exists(build)
         args = build_put_args.parse_args()
         builds[build] = args
         return builds[build], 201
+    
+    def delete(self, build):
+        abort_if_invalid(build)
+        del builds[build]
+        return "", 204
     
 api.add_resource(Builds, "/builds/<string:build>")
 
