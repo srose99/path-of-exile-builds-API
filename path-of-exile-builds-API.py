@@ -1,15 +1,11 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
-from flask_cli import FlaskCLI
-from flask_migrate import Migrate
 
 app = Flask(__name__)
-FlaskCLI(app)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 class BuildModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,6 +16,7 @@ class BuildModel(db.Model):
 
     def __repr__(self):
         return f"Build(name = {name}, budget = {budget}, pastebin = {pastebin}, description = {description})"
+    
 
 build_put_args = reqparse.RequestParser()
 build_put_args.add_argument("name", type=str, help="Name of the build is required", required=True)

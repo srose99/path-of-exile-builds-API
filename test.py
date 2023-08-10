@@ -7,14 +7,14 @@ data = [{"name": "SST Champion", "budget": "HighEnd", "pastebin": "pastebin.URL"
 
 for i in range(len(data)):
     response = requests.put(BASE + "builds/" + str(i), json=data[i])
-    if response.status_code == 200:
+    if response.status_code == 201:
         print("Build", i, "created successfully")
     else:
         print("Error creating Build", i)
         print(response.status_code)
 
 input()
-response = requests.get(BASE + "builds/1")
+response = requests.get(BASE + "builds/0")
 if response.status_code == 200:
     print(response.json())
 else:
