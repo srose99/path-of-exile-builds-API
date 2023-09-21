@@ -1,5 +1,7 @@
 import requests
 
+#"http://127.0.0.1:5000/"
+
 BASE = "http://127.0.0.1:5000/"
 
 data = [{"name": "SST Champion", "budget": "HighEnd", "pastebin": "pastebin.URL", "description": "Fast and Tanky"},
@@ -13,8 +15,8 @@ for i in range(len(data)):
         print("Error creating Build", i)
         print(response.status_code)
 
-input()
-response = requests.get(BASE + "builds/0")
+userinput = input()
+response = requests.get(BASE + "builds/" + userinput)
 if response.status_code == 200:
     print(response.json())
 else:
